@@ -17,7 +17,3 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
-
-# Large datasets
-*.csv
-*.csv.zip
