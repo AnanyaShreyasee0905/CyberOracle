@@ -15,7 +15,20 @@ PCAP data" or "why NumPy instead of PyTorch."
 
 ## Quick start (two terminals)
 
-### 1. Generate data + train the model (run once)
+### 1. Demo data + trained model checkpoint are already included
+
+The repository already includes the processed demo data and trained model
+checkpoint needed to run CyberOracle:
+
+```bash
+data/processed/episodes.json
+data/processed/demo_episode.json
+ml/checkpoints/world_model.npz
+```
+
+You do not need to train the model to run the demo.
+
+Optional: if you want to regenerate the synthetic data and retrain the model:
 
 ```bash
 cd ml
@@ -34,6 +47,7 @@ python3 train.py                        # trains + writes checkpoints/world_mode
 This takes a few seconds (it's a tiny NumPy model, not a multi-GB training job).
 
 Optional: verify the hand-written backprop against numerical gradients:
+
 ```bash
 python3 _gradcheck.py     # should print "Gradient check PASSED"
 ```
@@ -84,21 +98,23 @@ before `npm run dev` (e.g. `VITE_API_URL=http://127.0.0.1:8000`).
 
 ## Project layout
 
-```
+```text
 cyber-oracle/
 ├── data/
+│   ├── raw/
+│   │   └── 02-14-2018.csv.zip          # raw CICIDS-2018 dataset zip for retraining
 │   ├── scripts/
 │   │   ├── generate_synthetic_data.py   # multi-stage attack scenario generator
 │   │   ├── flows_to_windows.py          # edges -> node features + adjacency
 │   │   └── mitre_heuristics.py          # rule-based MITRE stage classifier
-│   └── processed/                        # generated at runtime (episodes.json, demo_episode.json)
+│   └── processed/                        # included for demo (episodes.json, demo_episode.json)
 ├── ml/
 │   ├── model.py            # GNN + RNN world model (pure NumPy), gradient-checked
 │   ├── train.py             # trains model, precomputes enriched demo episode
 │   ├── rollout.py           # K-step forward simulation
 │   ├── counterfactual.py    # graph-edit + re-rollout comparison
 │   ├── _gradcheck.py        # numerical gradient verification
-│   └── checkpoints/         # generated at runtime (world_model.npz)
+│   └── checkpoints/         # included for demo (world_model.npz)
 ├── backend/
 │   └── app/
 │       ├── main.py                  # FastAPI app
@@ -131,3 +147,7 @@ about one contract: a list of windows, each with an `edges` list of
 CICIDS2017/UNSW-NB15 CSVs, write an adapter that groups flows into time
 buckets and emits that same structure — training, rollout, counterfactual,
 and the dashboard all work unchanged.
+
+The raw CICIDS-2018 dataset zip is included at `data/raw/02-14-2018.csv.zip`.
+To retrain from it, extract the CSV, convert it into the same episode/window
+contract, then run the training script.
