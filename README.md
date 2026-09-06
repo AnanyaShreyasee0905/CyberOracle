@@ -122,6 +122,13 @@ cyber-oracle/
     ├── build-notes.md        # what was tested, what's simplified, and why
     └── demo-script.md         # exact click-by-click walkthrough for judges
 ```
+## Screenshots
+
+![Dashboard view 1](Screenshot%202026-09-07%20020458.png)
+
+![Dashboard view 2](Screenshot%202026-09-07%20020614.png)
+
+![Dashboard view 3](Screenshot%202026-09-07%20020711.png)
 
 ## Swapping in real data later
 
